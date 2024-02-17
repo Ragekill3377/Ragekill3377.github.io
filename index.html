@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DRAGON * TOOL</title>
+    <title>DRAGON TOOL</title>
     <style>
         body {
             margin: 0;
@@ -41,7 +41,7 @@
             }
         }
 
-        h1, h2, h3 {
+        h1, h2 {
             font-size: 36px;
             margin: 0;
             transition: all 0.3s;
@@ -49,7 +49,7 @@
             z-index: 1;
         }
 
-        h1:hover, h2:hover, h3:hover {
+        h1:hover, h2:hover {
             font-size: 40px;
             font-weight: bold;
             background: linear-gradient(45deg, #3498db, #8e44ad);
@@ -65,6 +65,7 @@
             z-index: 0;
             filter: blur(5px);
             opacity: 0.7; /* Adjust opacity as needed */
+            pointer-events: none; /* Prevent dragging */
         }
 
         .menu-icon {
@@ -99,9 +100,15 @@
             padding: 20px;
         }
 
+        .faq dt {
+            font-weight: bold;
+        }
+
         a {
             text-decoration: none;
             color: white;
+            position: relative;
+            z-index: 1;
         }
 
         button {
@@ -140,7 +147,7 @@
 
     <img class="logo" src="images/logo.png" alt="Logo">
     <h1>ARK</h1>
-    <h2>DRAGON</h2>
+    <h2>DRAGON TOOL</h2>
 
     <a href="https://www.paypal.com/paypalme/aef12399999?locale.x=en_VN&amount=15" target="_blank">
         <button>Dragon Monthly: $15</button>
@@ -172,16 +179,18 @@
 
     <div class="sidebar" id="sidebar">
         <div class="faq" id="faq">
-            <div>Q1. After Payment Where Do I Receive the product?</div>
-            <div>Ans. After payment, please join our Discord server, send proof of payment via screenshot, and you will receive the product.</div>
-            <div>Q2. Platform?</div>
-            <div>Ans. IOS Only.</div>
-            <div>Q3. Can I Reinstall the app?</div>
-            <div>Ans. YES, but it would require a key reset, which is 5$.</div>
-            <div>Q4. How to install?</div>
-            <div>Ans. The file is a .IPA and the code will remain valid even if the app is uninstalled and reinstalled (as long as it's installed with the correct bundle id via Gbox, Boarsign, Esign, etc). You can install the updates on top of the old app without key reset, but if you will delete and reinstall, the reset will always cost 5$.</div>
-            <div>Q5. Is this legit? Any Proofs? Showcase?</div>
-            <div>Ans. Of course. Everything is in our Discord and well explained there. You may see from there as well.</div>
+            <dl>
+                <dt>Q1. After Payment Where Do I Receive the product?</dt>
+                <dd>After payment, please join our Discord server, send proof of payment via screenshot, and you will receive the product.</dd>
+                <dt>Q2. Platform?</dt>
+                <dd>IOS Only.</dd>
+                <dt>Q3. Can I Reinstall the app?</dt>
+                <dd>YES, but it would require a key reset, which is 5$.You Will always recieve updates.</dd>
+                <dt>Q4. How to install?</dt>
+                <dd>The file is a .IPA and the code will remain valid even if the app is uninstalled and reinstalled (as long as it's installed with the correct bundle id via Gbox, Boarsign, Esign, etc). You can install the updates on top of the old app without key reset, but if you will delete and reinstall, the reset will always cost 5$.</dd>
+                <dt>Q5. Is this legit? Any Proofs? Showcase?</dt>
+                <dd>Of course. Everything is in our Discord and well explained there. You may see from there as well.</dd>
+            </dl>
         </div>
     </div>
 
