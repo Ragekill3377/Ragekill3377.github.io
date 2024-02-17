@@ -1,0 +1,92 @@
+📝 Tutorial: How to Safeguard Your Code for Reinstallation
+
+Step 1: Initial Purchase
+Purchase the code and ensure to save it securely.
+
+Step 2: Code Preservation
+Keep your code confidential and avoid sharing it with others.
+
+Step 3: App Reinstallation
+If you need to reinstall the app:
+Ensure to reinstall it using the correct bundle ID via platforms like Gbox, Boarsign, Esign, etc.
+Your code remains valid even after uninstalling and reinstalling the app, as long as it's installed with the correct bundle ID.
+
+Step 4: Transferring to a New Device
+If you want to switch the code to a new device:
+The price for transferring is 1/4 of the original code price.
+You must provide proof of purchase to initiate the transfer.
+
+Step 5: Troubleshooting
+If your app stops working due to a software update:
+Consider downgrading your device or refrain from updating.
+
+🔒 Important Security Measures:
+Code can only be used for 1 device. reset is required for moving devices.
+Save your code in a secure location for future reference.
+
+📝 Tutorial 2: How to sign on IOS?
+Dragon also sells custom developer certificates with the following points:
+
+Important Reminder:
+• 1-year validity 📆
+• Unlimited IPA signing 🔏
+• No revokes! 🚫
+
+💼 Prices available on Discord. For purchases, kindly open a ticket.
+
+Step 1: Obtain Dragon Company Certificate
+
+Purchase a certificate from Dragon Company.
+Step 2: Export Certificate
+
+Dragon Company will provide you with a certificate file (usually in .p12 or .pfx format) along with a password for security.
+Step 3: Import Certificate
+
+Open your preferred signer application (e.g., Gbox, Boarsign, Esign).
+Look for an option to import certificates or profiles.
+Select the Dragon Company certificate file and input the password when prompted.
+Step 4: Certificate Installation
+
+Once imported, the Dragon Company certificate will be available for use within the signer application.
+Step 5: App Installation
+
+Download the app you wish to install (e.g., Dragon).
+Open the signer application and select the imported Dragon Company certificate for signing.
+Follow the instructions provided by the signer application to complete the signing process. Now click "Install" and wait for installtion to be complete. Make sure ***DEVELOPER MODE*** is enbaled on IOS 16+. After installtion, you may open dragon.
+
+Payment methods?
+On our webpage, we have the default "Paypal" option, but we have many more!
+
+𝐀𝐥𝐥 𝐓𝐮𝐫𝐤𝐢𝐬𝐡 𝐁𝐚𝐧𝐤
+
+𝐏𝐀𝐘𝐏𝐀𝐋
+
+ 𝐍𝐢𝐭𝐫𝐚𝐝𝐨 𝐃𝐨𝐧𝐚𝐭𝐞 
+
+𝐀𝐥𝐢𝐏𝐚𝐲
+
+ 𝐂𝐫𝐲𝐩𝐭𝐨
+
+ 𝐂𝐚𝐬𝐡𝐀𝐩𝐩
+
+𝐑𝐮𝐬𝐬𝐢𝐚 𝐛𝐚𝐧𝐤𝐬 𝐚𝐧𝐝 𝐰𝐚𝐥𝐥𝐞𝐭𝐬
+
+ 𝐉𝐚𝐩𝐚𝐧𝐞𝐬𝐞 （日本人向け）
+
+𝐉𝐏𝐍 
+
+𝐢𝐓𝐮𝐧𝐞𝐬 𝐜𝐚𝐫𝐝
+
+𝐏𝐚𝐲𝐏𝐚𝐲
+
+𝐖𝐢𝐧𝐠 𝐁𝐚𝐧𝐤
+
+𝐀𝐁𝐀
+
+𝐓𝐫𝐮𝐞𝐌𝐨𝐧𝐞𝐲
+
+𝐂𝐚𝐦𝐛𝐨𝐝𝐢𝐚 𝐁𝐚𝐧𝐤
+
+𝐕𝐍𝐃
+
+!!!JOIN OUR DISCORD TO BUY NOW!!!
