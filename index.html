@@ -42,7 +42,7 @@
             z-index: 1;
         }
 
-        h1:hover, h2:hover {
+        h1:hover, h2:hover, h3:hover {
             font-size: 40px;
             font-weight: bold;
             background: linear-gradient(45deg, #3498db, #8e44ad);
@@ -60,37 +60,46 @@
             opacity: 0.7; /* Adjust opacity as needed */
         }
 
-        a {
-            text-decoration: none;
+        .sidebar {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 100vh;
+            background-color: rgba(0, 0, 50, 0.7); /* Dark bluish translucent background */
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
         }
 
-        button {
-            padding: 10px 20px;
-            background-color: transparent;
-            color: white;
-            border: none;
+        .sidebar.open {
+            transform: translateX(0);
+        }
+
+        .dots {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 30px;
             cursor: pointer;
-            margin: 10px;
-            border-radius: 5px;
-            font-size: 16px;
-            transition: background-color 0.3s;
-            position: relative;
-            z-index: 1;
+            z-index: 3;
         }
 
-        button:hover {
-            background-color: #3498db;
+        .faq {
+            display: none;
+            color: white;
+            margin-top: 20px;
         }
 
-        .description {
-            font-size: 14px;
-            margin-top: 5px;
-            text-align: center;
-            max-width: 80%;
-            margin-left: auto;
-            margin-right: auto;
-            position: relative;
-            z-index: 1;
+        .faq.open {
+            display: block;
         }
     </style>
 </head>
@@ -98,30 +107,34 @@
     <img class="logo" src="images/logo.png" alt="Logo">
     <h1>ARK</h1>
     <h2>DRAGON</h2>
+    <h3>Developers: AEF, Grim_reaper_31, Rage paulhevile</h3>
     <h4>alternate website: <a href="https://arkdragontool.com" target="_blank">https://arkdragontool.com</a></h4>
     
-    <a href="https://www.paypal.com/paypalme/aef12399999?locale.x=en_VN&amount=15" target="_blank">
-        <button>Dragon Monthly: $15</button>
-    </a>
-
-    <a href="https://www.paypal.com/paypalme/aef12399999?locale.x=en_VN&amount=30" target="_blank">
-        <button>Dragon Normal: $30</button>
-    </a>
-
-    <a href="https://www.paypal.com/paypalme/aef12399999?locale.x=en_VN&amount=50" target="_blank">
-        <button>Dragon Pro: $50</button>
-    </a>
-
-    <a href="https://youtu.be/oa0jYrVdy6Q?feature=shared" target="_blank">
-        <button>Youtube & Showcase</button>
-    </a>
-
-    <a href="https://discord.gg/8AmVtF3gsB" target="_blank">
-        <button>Discord</button>
-    </a>
-
-    <div class="description">
-        <p>After payment, take a screenshot with proof, make a ticket in Dragon Discord server, send screenshot, and you will receive the product.</p>
+    <div class="sidebar" id="sidebar">
+        <div class="dots" id="dots">&#8226;&#8226;&#8226;</div>
+        <div class="faq" id="faq">
+            <div>Q1. kkkkkkk</div>
+            <div>Ans. kkkkkk</div>
+            <div>Q2. kkkkkkk</div>
+            <div>Ans. kkkkkk</div>
+            <div>Q3. kkkkkkk</div>
+            <div>Ans. kkkkkk</div>
+            <div>Q4. kkkkkkk</div>
+            <div>Ans. kkkkkk</div>
+            <div>Q5. kkkkkkk</div>
+            <div>Ans. kkkkkk</div>
+        </div>
     </div>
+
+    <script>
+        const dotsButton = document.getElementById('dots');
+        const sidebar = document.getElementById('sidebar');
+        const faq = document.getElementById('faq');
+
+        dotsButton.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+            faq.classList.toggle('open');
+        });
+    </script>
 </body>
 </html>
