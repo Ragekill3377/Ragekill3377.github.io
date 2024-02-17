@@ -19,6 +19,7 @@
             text-align: center;
             font-family: Arial, sans-serif;
             color: white;
+            position: relative;
         }
 
         @keyframes gradient {
@@ -37,6 +38,8 @@
             font-size: 36px;
             margin: 0;
             transition: all 0.3s;
+            position: relative;
+            z-index: 1;
         }
 
         h1:hover, h2:hover, h3:hover {
@@ -45,6 +48,15 @@
             background: linear-gradient(45deg, #3498db, #8e44ad);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+        }
+
+        .logo {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 0;
+            filter: blur(10px);
         }
 
         a {
@@ -78,10 +90,9 @@
     </style>
 </head>
 <body>
+    <img class="logo" src="images/logo.png" alt="Logo">
     <h1>ARK</h1>
-    <h2>DRAGON</h2>
-    <h3>Developers: AEF, Grim_reaper_31, Rage paulhevile</h3>
-    <h4>alternate website: <a href="https://arkdragontool.com" target="_blank">https://arkdragontool.com</a></h4>
+    <h2>DRAGON-TOOL</h2>
     
     <a href="https://www.paypal.com/paypalme/aef12399999?locale.x=en_VN&amount=15" target="_blank">
         <button>Dragon Monthly: $15</button>
