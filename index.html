@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DRAGON TOOL</title>
+    <title>DRAGON * TOOL</title>
     <style>
         body {
             margin: 0;
@@ -21,6 +21,7 @@
             color: white;
             position: relative;
             transition: background-color 0.5s ease;
+            user-select: none; /* Prevent dragging and dropping */
         }
 
         .dark-theme body {
@@ -66,24 +67,8 @@
             opacity: 0.7; /* Adjust opacity as needed */
         }
 
-        .sidebar {
+        .menu-icon {
             position: fixed;
-            top: 0;
-            right: 0;
-            width: 0;
-            height: 100vh;
-            background-color: rgba(0, 0, 50, 0.7); /* Dark bluish translucent background */
-            z-index: 2;
-            overflow-y: auto;
-            transition: width 0.3s ease-in-out;
-        }
-
-        .sidebar.open {
-            width: 200px;
-        }
-
-        .dots {
-            position: absolute;
             top: 10px;
             right: 10px;
             font-size: 30px;
@@ -92,14 +77,26 @@
             color: white;
         }
 
-        .faq {
-            display: none;
-            color: white;
-            margin-top: 20px;
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -200px; /* Initially hidden */
+            width: 200px;
+            height: 100vh;
+            background-color: rgba(0, 0, 50, 0.7); /* Dark bluish translucent background */
+            z-index: 2;
+            overflow-y: auto;
+            transition: right 0.3s ease-in-out;
         }
 
-        .faq.open {
-            display: block;
+        .sidebar.open {
+            right: 0; /* Show the sidebar */
+        }
+
+        .faq {
+            color: white;
+            margin-top: 20px;
+            padding: 20px;
         }
 
         a {
@@ -144,9 +141,7 @@
     <img class="logo" src="images/logo.png" alt="Logo">
     <h1>ARK</h1>
     <h2>DRAGON</h2>
-    <h3>Developers: AEF, Grim_reaper_31, Rage paulhevile</h3>
-    <h4>alternate website: <a href="https://arkdragontool.com" target="_blank">https://arkdragontool.com</a></h4>
-    
+
     <a href="https://www.paypal.com/paypalme/aef12399999?locale.x=en_VN&amount=15" target="_blank">
         <button>Dragon Monthly: $15</button>
     </a>
@@ -171,8 +166,11 @@
         <p>After payment, take a screenshot with proof, make a ticket in Dragon Discord server, send screenshot, and you will receive the product.</p>
     </div>
 
+    <div class="menu-icon" onclick="toggleSidebar()">
+        &#9776; <!-- Hamburger icon -->
+    </div>
+
     <div class="sidebar" id="sidebar">
-        <div class="dots" id="dots">&#8226;&#8226;&#8226;</div>
         <div class="faq" id="faq">
             <div>Q1. After Payment Where Do I Receive the product?</div>
             <div>Ans. After payment, please join our Discord server, send proof of payment via screenshot, and you will receive the product.</div>
@@ -191,6 +189,10 @@
         function toggleTheme() {
             const darkThemeRadio = document.getElementById('darkTheme');
             document.body.classList.toggle('dark-theme', darkThemeRadio.checked);
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
         }
     </script>
 </body>
