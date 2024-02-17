@@ -61,26 +61,19 @@
         }
 
         .sidebar {
-            position: absolute;
+            position: fixed;
             top: 0;
             right: 0;
-            width: 200px;
+            width: 0;
             height: 100vh;
             background-color: rgba(0, 0, 50, 0.7); /* Dark bluish translucent background */
             z-index: 2;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: flex-start;
-            padding: 20px;
-            box-sizing: border-box;
             overflow-y: auto;
-            transform: translateX(100%);
-            transition: transform 0.3s ease-in-out;
+            transition: width 0.3s ease-in-out;
         }
 
         .sidebar.open {
-            transform: translateX(0);
+            width: 200px;
         }
 
         .dots {
@@ -90,6 +83,7 @@
             font-size: 30px;
             cursor: pointer;
             z-index: 3;
+            color: white;
         }
 
         .faq {
@@ -101,6 +95,40 @@
         .faq.open {
             display: block;
         }
+
+        a {
+            text-decoration: none;
+            color: white;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: transparent;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin: 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            position: relative;
+            z-index: 1;
+        }
+
+        button:hover {
+            background-color: #3498db;
+        }
+
+        .description {
+            font-size: 14px;
+            margin-top: 5px;
+            text-align: center;
+            max-width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 1;
+        }
     </style>
 </head>
 <body>
@@ -110,19 +138,43 @@
     <h3>Developers: AEF, Grim_reaper_31, Rage paulhevile</h3>
     <h4>alternate website: <a href="https://arkdragontool.com" target="_blank">https://arkdragontool.com</a></h4>
     
+    <a href="https://www.paypal.com/paypalme/aef12399999?locale.x=en_VN&amount=15" target="_blank">
+        <button>Dragon Monthly: $15</button>
+    </a>
+
+    <a href="https://www.paypal.com/paypalme/aef12399999?locale.x=en_VN&amount=30" target="_blank">
+        <button>Dragon Normal: $30</button>
+    </a>
+
+    <a href="https://www.paypal.com/paypalme/aef12399999?locale.x=en_VN&amount=50" target="_blank">
+        <button>Dragon Pro: $50</button>
+    </a>
+
+    <a href="https://youtu.be/oa0jYrVdy6Q?feature=shared" target="_blank">
+        <button>Youtube & Showcase</button>
+    </a>
+
+    <a href="https://discord.gg/8AmVtF3gsB" target="_blank">
+        <button>Discord</button>
+    </a>
+
+    <div class="description">
+        <p>After payment, take a screenshot with proof, make a ticket in Dragon Discord server, send screenshot, and you will receive the product.</p>
+    </div>
+
     <div class="sidebar" id="sidebar">
         <div class="dots" id="dots">&#8226;&#8226;&#8226;</div>
         <div class="faq" id="faq">
-            <div>Q1. kkkkkkk</div>
-            <div>Ans. kkkkkk</div>
-            <div>Q2. kkkkkkk</div>
-            <div>Ans. kkkkkk</div>
-            <div>Q3. kkkkkkk</div>
-            <div>Ans. kkkkkk</div>
-            <div>Q4. kkkkkkk</div>
-            <div>Ans. kkkkkk</div>
-            <div>Q5. kkkkkkk</div>
-            <div>Ans. kkkkkk</div>
+            <div>Q1. After Payment Where Do I Recieve the product?</div>
+            <div>Ans. After payment, plase join our discord server, send proof of payment via screenshot, and you will reciver the product.</div>
+            <div>Q2. Platform?</div>
+            <div>Ans. IOS Only.k</div>
+            <div>Q3. Can I Reinstall the app?</div>
+            <div>Ans. YES, but it would require a key reset, which is 5$.</div>
+            <div>Q4. How to install?</div>
+            <div>Ans. The file is a .IPA and the code will remain valid even if the app is uninstalled and reinstalled(as long as its installed with the correct bundle id via Gbox, Boarsign, Esign etc). You can install the updates on top of the old app without key reset, but if you will delete and reinstall, the reset will always cost 5$.</div>
+            <div>Q5. Is this legit? Any Proofs? Showcase?</div>
+            <div>Ans. Ofcourse. Everything is in our discord and well explained there. you may see from there aswell.</div>
         </div>
     </div>
 
