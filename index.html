@@ -20,6 +20,12 @@
             font-family: Arial, sans-serif;
             color: white;
             position: relative;
+            transition: background-color 0.5s ease;
+        }
+
+        .dark-theme body {
+            background: rgb(0, 0, 0);
+            color: rgb(255, 69, 0); /* Orange */
         }
 
         @keyframes gradient {
@@ -132,10 +138,14 @@
     </style>
 </head>
 <body>
+    <input type="radio" name="theme" id="darkTheme" onchange="toggleTheme()" />
+    <label for="darkTheme">Dark</label>
+
     <img class="logo" src="images/logo.png" alt="Logo">
     <h1>ARK</h1>
     <h2>DRAGON</h2>
-    <h3>alternate website: <a href="https://arkdragontool.com" target="_blank">https://arkdragontool.com</a></h3>
+    <h3>Developers: AEF, Grim_reaper_31, Rage paulhevile</h3>
+    <h4>alternate website: <a href="https://arkdragontool.com" target="_blank">https://arkdragontool.com</a></h4>
     
     <a href="https://www.paypal.com/paypalme/aef12399999?locale.x=en_VN&amount=15" target="_blank">
         <button>Dragon Monthly: $15</button>
@@ -178,14 +188,10 @@
     </div>
 
     <script>
-        const dotsButton = document.getElementById('dots');
-        const sidebar = document.getElementById('sidebar');
-        const faq = document.getElementById('faq');
-
-        dotsButton.addEventListener('click', () => {
-            sidebar.classList.toggle('open');
-            faq.classList.toggle('open');
-        });
+        function toggleTheme() {
+            const darkThemeRadio = document.getElementById('darkTheme');
+            document.body.classList.toggle('dark-theme', darkThemeRadio.checked);
+        }
     </script>
 </body>
 </html>
