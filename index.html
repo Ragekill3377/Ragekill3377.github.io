@@ -149,6 +149,9 @@
     <h1>ARK</h1>
     <h2>DRAGON</h2>
 
+    <h3>Developers: AEF, Grim_reaper_31, Rage paulhevile</h3>
+    <h4>alternate website: <a href="https://arkdragontool.com" target="_blank">https://arkdragontool.com</a></h4>
+    
     <a href="https://www.paypal.com/paypalme/aef12399999?locale.x=en_VN&amount=15" target="_blank">
         <button>Dragon Monthly: $15</button>
     </a>
@@ -168,8 +171,8 @@
     <a href="https://discord.gg/8AmVtF3gsB" target="_blank">
         <button>Discord</button>
     </a>
-    
-    <a href="https://t.me/DRAGONOFFICIALARKMOBILE" target="_blank">
+
+ <a href="https://t.me/DRAGONOFFICIALARKMOBILE" target="_blank">
         <button>Telegram</button>
     </a>
 
@@ -205,7 +208,19 @@
     <script>
         function toggleTheme() {
             const darkThemeCheckbox = document.getElementById('darkTheme');
-            document.body.classList.toggle('dark-theme', darkThemeCheckbox.checked);
+            const body = document.body;
+
+            if (darkThemeCheckbox.checked) {
+                body.classList.add('dark-theme');
+                setTimeout(() => {
+                    body.style.background = 'rgb(0, 0, 0)';
+                }, 3000);
+            } else {
+                body.style.background = 'linear-gradient(45deg, #3498db, #8e44ad)';
+                setTimeout(() => {
+                    body.classList.remove('dark-theme');
+                }, 3000);
+            }
         }
 
         function toggleSidebar() {
