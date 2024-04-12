@@ -59,6 +59,8 @@
             transition: 0.5s ease;
             user-select: none;
             margin: 10px;
+            position: relative;
+            z-index: 2; /* Ensure buttons are above the logo */
         }
 
         .button:hover,
@@ -82,6 +84,8 @@
             text-transform: uppercase;
             cursor: pointer;
             transition: all 0.3s;
+            position: relative;
+            z-index: 2; /* Ensure button is above the logo */
         }
 
         .install-button:hover {
@@ -95,7 +99,7 @@
             top: 10px;
             left: 50%;
             transform: translateX(-50%);
-            z-index: 0;
+            z-index: 1; /* Ensure logo is behind buttons */
             filter: none; /* Remove blur effect from the image */
             opacity: 1; /* Set opacity to fully opaque */
             pointer-events: none; /* Prevent dragging */
