@@ -33,7 +33,7 @@
             margin: 0;
             transition: all 0.3s;
             position: relative;
-            z-index: 1;
+            z-index: 3; /* Ensure H1 and H2 are above the logo */
         }
 
         h1:hover, h2:hover {
@@ -99,7 +99,7 @@
             top: 10px;
             left: 50%;
             transform: translateX(-50%);
-            z-index: 1; /* Ensure logo is behind buttons */
+            z-index: 1; /* Ensure logo is behind everything */
             filter: none; /* Remove blur effect from the image */
             opacity: 1; /* Set opacity to fully opaque */
             pointer-events: none; /* Prevent dragging */
