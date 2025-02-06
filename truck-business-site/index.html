@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Truck Business - Софоново</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <div class="lang-switcher">
+            <select id="language-select">
+                <option value="en">English</option>
+                <option value="ru">Русский</option>
+                <option value="ka">ქართული</option>
+            </select>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#home" data-lang="home">Home</a></li>
+                <li><a href="#about" data-lang="about">About Us</a></li>
+                <li><a href="#services" data-lang="services">Services</a></li>
+                <li><a href="#contact" data-lang="contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home">
+        <h1 data-lang="welcome">Welcome to Our Truck Business</h1>
+        <p data-lang="welcomeText">We provide reliable trucking services in Софоново and beyond.</p>
+    </section>
+
+    <section id="about">
+        <h2 data-lang="aboutUs">About Us</h2>
+        <p data-lang="aboutText">With over 20 trucks and a dedicated team, we ensure your goods are transported safely and on time.</p>
+    </section>
+
+    <section id="services">
+        <h2 data-lang="ourServices">Our Services</h2>
+        <p data-lang="servicesText">We offer a variety of trucking services including metal transport. Check our availability and pricing.</p>
+    </section>
+
+    <section id="contact">
+        <h2 data-lang="reachOut">Reach Out to Us</h2>
+        <form id="contact-form">
+            <input type="email" id="email" placeholder="Your Email" required>
+            <button type="submit" id="send-btn" disabled data-lang="send">Send</button>
+        </form>
+        <p id="response-message"></p>
+    </section>
+
+    <script src="js/scripts.js"></script>
+</body>
+</html>
