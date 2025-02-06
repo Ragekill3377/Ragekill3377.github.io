@@ -1,10 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Orbitron', sans-serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(270deg, #ff0000, #ff7f00, #ffff00);
-    background-size: 600% 600%;
-    animation: backgroundShift 10s infinite linear;
+    background: radial-gradient(circle, #ff0000, #ff7f00, #ffff00);
+    background-size: 400% 400%;
+    animation: backgroundShift 10s infinite alternate ease-in-out;
     color: white;
     overflow-x: hidden;
 }
@@ -16,26 +18,32 @@ body {
 }
 
 header {
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.9);
     color: white;
-    padding: 15px 30px;
+    padding: 20px 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-    transition: transform 0.3s;
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.7);
+    transition: transform 0.3s ease-in-out;
 }
 
 header:hover {
-    transform: scale(1.02);
+    transform: scale(1.05);
 }
 
 .lang-switcher select {
-    padding: 8px;
+    padding: 10px;
     background: black;
     color: white;
-    border: 1px solid white;
+    border: 2px solid white;
     cursor: pointer;
+    transition: 0.3s;
+}
+
+.lang-switcher select:hover {
+    background: white;
+    color: black;
 }
 
 nav ul {
@@ -45,27 +53,27 @@ nav ul {
 
 nav ul li {
     display: inline;
-    margin-right: 20px;
-    transition: transform 0.2s;
+    margin-right: 25px;
+    transition: transform 0.2s ease-in-out;
 }
 
 nav ul li:hover {
-    transform: scale(1.1);
+    transform: scale(1.2);
 }
 
 nav ul li a {
     color: white;
     text-decoration: none;
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+    text-shadow: 0 0 12px rgba(255, 255, 255, 1);
 }
 
 section {
-    padding: 20px;
-    margin-top: 20px;
-    background: rgba(0, 0, 0, 0.85);
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
-    animation: fadeIn 2s, glow 3s infinite alternate;
+    padding: 30px;
+    margin-top: 30px;
+    background: rgba(0, 0, 0, 0.9);
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+    animation: fadeIn 2s ease-in-out, glow 3s infinite alternate ease-in-out;
 }
 
 @keyframes fadeIn {
@@ -74,52 +82,126 @@ section {
 }
 
 @keyframes glow {
-    from { box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
-    to { box-shadow: 0 0 25px rgba(255, 255, 255, 1); }
+    from { box-shadow: 0 0 15px rgba(255, 255, 255, 0.7); }
+    to { box-shadow: 0 0 30px rgba(255, 255, 255, 1); }
 }
 
 #contact-form {
     display: flex;
     flex-direction: column;
     width: 350px;
-    animation: fadeIn 2s;
+    animation: fadeIn 2s ease-in-out;
 }
 
 #email {
-    padding: 12px;
-    margin-bottom: 10px;
+    padding: 15px;
+    margin-bottom: 12px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     background: black;
     color: white;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-    transition: all 0.3s;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+    transition: all 0.3s ease-in-out;
 }
 
 #email:focus {
     outline: none;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 1);
+    box-shadow: 0 0 25px rgba(255, 255, 255, 1);
 }
 
 #send-btn {
-    padding: 12px;
+    padding: 15px;
     background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00);
     color: black;
     border: none;
     cursor: pointer;
     font-weight: bold;
-    transition: all 0.3s;
-    text-shadow: 0 0 10px white;
-    box-shadow: 0 0 10px white;
+    transition: all 0.3s ease-in-out;
+    text-shadow: 0 0 15px white;
+    box-shadow: 0 0 15px white;
+    border-radius: 5px;
 }
 
 #send-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 20px white;
+    transform: scale(1.15);
+    box-shadow: 0 0 25px white;
 }
 
 #send-btn:disabled {
     background: grey;
     cursor: not-allowed;
+    opacity: 0.5;
 }
 
+button {
+    position: relative;
+    width: 12em;
+    height: 4em;
+    outline: none;
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ddebf0;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+button:hover {
+    color: #27c39f;
+}
+
+button::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00);
+    filter: blur(10px);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+button:hover::after {
+    opacity: 1;
+}
+
+button:disabled {
+    color: gray;
+    cursor: not-allowed;
+}
+
+button:disabled::after {
+    display: none;
+}
+
+@keyframes stars {
+    0% { transform: translateY(0px); }
+    100% { transform: translateY(-100px); }
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: url('https://source.unsplash.com/1600x900/?space,stars');
+    opacity: 0.3;
+    animation: stars 20s linear infinite alternate;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: url('default-star-background.jpg');
+    opacity: 0.3;
+    animation: stars 20s linear infinite alternate;
+}
+
+@media (min-width: 0px) {
+    body::before {
+        background: url('https://source.unsplash.com/1600x900/?space,stars'), url('default-star-background.jpg');
+        background-size: cover;
+    }
+}
