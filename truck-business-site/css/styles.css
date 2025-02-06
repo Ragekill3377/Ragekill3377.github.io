@@ -2,20 +2,40 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background: linear-gradient(270deg, #ff0000, #ff7f00, #ffff00);
+    background-size: 600% 600%;
+    animation: backgroundShift 10s infinite linear;
+    color: white;
+    overflow-x: hidden;
+}
+
+@keyframes backgroundShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 header {
-    background-color: #333;
+    background: rgba(0, 0, 0, 0.8);
     color: white;
-    padding: 10px 20px;
+    padding: 15px 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    transition: transform 0.3s;
+}
+
+header:hover {
+    transform: scale(1.02);
 }
 
 .lang-switcher select {
-    padding: 5px;
+    padding: 8px;
+    background: black;
+    color: white;
+    border: 1px solid white;
+    cursor: pointer;
 }
 
 nav ul {
@@ -26,18 +46,26 @@ nav ul {
 nav ul li {
     display: inline;
     margin-right: 20px;
+    transition: transform 0.2s;
+}
+
+nav ul li:hover {
+    transform: scale(1.1);
 }
 
 nav ul li a {
     color: white;
     text-decoration: none;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
 }
 
 section {
     padding: 20px;
     margin-top: 20px;
-    background-color: white;
-    animation: fadeIn 2s;
+    background: rgba(0, 0, 0, 0.85);
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    animation: fadeIn 2s, glow 3s infinite alternate;
 }
 
 @keyframes fadeIn {
@@ -45,25 +73,53 @@ section {
     to { opacity: 1; }
 }
 
+@keyframes glow {
+    from { box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
+    to { box-shadow: 0 0 25px rgba(255, 255, 255, 1); }
+}
+
 #contact-form {
     display: flex;
     flex-direction: column;
-    width: 300px;
+    width: 350px;
+    animation: fadeIn 2s;
 }
 
 #email {
-    padding: 10px;
+    padding: 12px;
     margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    background: black;
+    color: white;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    transition: all 0.3s;
+}
+
+#email:focus {
+    outline: none;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 1);
 }
 
 #send-btn {
-    padding: 10px;
-    background-color: #555;
-    color: white;
+    padding: 12px;
+    background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00);
+    color: black;
     border: none;
     cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+    text-shadow: 0 0 10px white;
+    box-shadow: 0 0 10px white;
+}
+
+#send-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px white;
 }
 
 #send-btn:disabled {
-    background-color: #ccc;
+    background: grey;
+    cursor: not-allowed;
 }
+
