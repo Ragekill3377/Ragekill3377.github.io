@@ -1,0 +1,44 @@
+{
+    "en": {
+        "home": "Home",
+        "about": "About Us",
+        "services": "Services",
+        "contact": "Contact",
+        "welcome": "Welcome to Our Truck Business",
+        "welcomeText": "We provide reliable trucking services in Софоново and beyond.",
+        "aboutUs": "About Us",
+        "aboutText": "With over 20 trucks and a dedicated team, we ensure your goods are transported safely and on time.",
+        "ourServices": "Our Services",
+        "servicesText": "We offer a variety of trucking services including metal transport. Check our availability and pricing.",
+        "reachOut": "Reach Out to Us",
+        "send": "Send"
+    },
+    "ru": {
+        "home": "Главная",
+        "about": "О Нас",
+        "services": "Услуги",
+        "contact": "Контакт",
+        "welcome": "Добро пожаловать в наш грузовой бизнес",
+        "welcomeText": "Мы предоставляем надежные грузовые услуги в Софоново и за его пределами.",
+        "aboutUs": "О Нас",
+        "aboutText": "Имея более 20 грузовиков и преданную команду, мы гарантируем безопасную и своевременную доставку ваших грузов.",
+        "ourServices": "Наши Услуги",
+        "servicesText": "Мы предлагаем различные грузовые услуги, включая перевозку металла. Проверьте нашу доступность и цены.",
+        "reachOut": "Свяжитесь с нами",
+        "send": "Отправить"
+    },
+    "ka": {
+        "home": "მთავარი",
+        "about": "ჩვენს შესახებ",
+        "services": "სერვისები",
+        "contact": "კონტაქტი",
+        "welcome": "კეთილი იყოს თქვენი მობრძანება ჩვენს სატვირთო ბიზნესში",
+        "welcomeText": "ჩვენ უზრუნველვყოფთ საიმედო სატვირთო მომსახურებას სოფონოვოში და მის ფარგლებს გარეთ.",
+        "aboutUs": "ჩვენს შესახებ",
+        "aboutText": "20-ზე მეტი სატვირთო მანქანით და ერთგული გუნდით, ჩვენ ვუზრუნველვყოფთ თქვენი საქონლის უსაფრთხო და დროულ მიწოდებას.",
+        "ourServices": "ჩვენი სერვისები",
+        "servicesText": "ჩვენ ვთავაზობთ სხვადასხვა სატვირთო მომსახურებას, მეტალის ტრანსპორტირების ჩათვლით. შეამოწმეთ ჩვენი ხელმისაწვდომობა და ფასები.",
+        "reachOut": "დაგვიკავშირდით",
+        "send": "გაგზავნა"
+    }
+}
