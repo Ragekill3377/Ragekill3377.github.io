@@ -3,154 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jailbreak Compatibility</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #121212;
-            color: white;
-        }
-        .container {
-            max-width: 600px;
-            margin: auto;
-            padding: 20px;
-            background-color: #1e1e1e;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-        h1, h2 {
-            text-align: center;
-        }
-        .dropdown {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            background: #333;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .details {
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #282828;
-            border-radius: 5px;
-        }
-        .hidden {
-            display: none;
-        }
-    </style>
+    <title>Rage’s jb checker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-gray-900 text-white p-5">
 
-    <h1>Jailbreak Compatibility Checker</h1>
-    <div id="jailbreaksContainer"></div>
+    <h1 class="text-2xl text-center font-bold">Rage’s jb checker</h1>
+    <div id="j"></div>
+    <div class="text-center mt-5">
+        Source: <a href="https://github.com/littlebyteorg/appledb" target="_blank" class="text-blue-400">littlebyteorg/appledb</a>
+    </div>
 
     <script>
-        const githubAPI = "https://api.github.com/repos/littlebyteorg/appledb/contents/jailbreakFiles";
-        const baseRawURL = "https://raw.githubusercontent.com/littlebyteorg/appledb/main/jailbreakFiles/";
+        const a = "https://api.github.com/repos/littlebyteorg/appledb/contents/jailbreakFiles";
+        const b = "https://raw.githubusercontent.com/littlebyteorg/appledb/main/jailbreakFiles/";
 
-        async function fetchJailbreakFiles() {
+        async function f() {
             try {
-                const response = await fetch(githubAPI);
-                const files = await response.json();
-                const jsonFiles = files.filter(file => file.name.endsWith(".json")).map(file => file.name);
-                
-                for (const file of jsonFiles) {
-                    fetchJailbreakData(file);
-                }
-            } catch (error) {
-                console.error("Error fetching jailbreak file list:", error);
+                const r = await fetch(a);
+                const d = await r.json();
+                d.filter(x => x.name.endsWith(".json")).forEach(x => g(x.name));
+            } catch (e) {
+                console.error("Err fetching files:", e);
             }
         }
 
-        async function fetchJailbreakData(filename) {
+        async function g(n) {
             try {
-                const response = await fetch(baseRawURL + filename);
-                const data = await response.json();
-                displayJailbreak(data, filename);
-            } catch (error) {
-                console.error(`Error fetching ${filename}:`, error);
+                const r = await fetch(b + n);
+                const d = await r.json();
+                h(d, n);
+            } catch (e) {
+                console.error(`Err fetching ${n}:`, e);
             }
         }
 
-        function displayJailbreak(data, filename) {
-            const container = document.createElement("div");
-            container.classList.add("container");
+        function h(d, n) {
+            const c = document.createElement("div");
+            c.className = "bg-gray-800 p-5 rounded-lg mt-5 max-w-lg mx-auto";
 
-            // Extract filename without .json extension
-            const fallbackName = filename.replace(".json", "");
-            const jailbreakName = data.info?.name?.trim() || fallbackName;
+            const t = document.createElement("h2");
+            t.className = "text-xl font-semibold text-center";
+            t.textContent = d.info?.name?.trim() || n.replace(".json", "");
 
-            const jailbreakTitle = document.createElement("h2");
-            jailbreakTitle.textContent = jailbreakName;
+            const p1 = m("Latest Version", d.info?.latestVer);
+            const p2 = m("Type", d.info?.type);
+            const p3 = m("Notes", d.info?.notes);
 
-            const latestVer = document.createElement("p");
-            latestVer.innerHTML = `<strong>Latest Version:</strong> ${data.info?.latestVer || "Not available"}`;
+            const s = document.createElement("select");
+            s.className = "w-full bg-gray-700 p-2 mt-2 rounded";
+            s.innerHTML = `<option value="">Select a device</option>`;
 
-            const type = document.createElement("p");
-            type.innerHTML = `<strong>Type:</strong> ${data.info?.type || "Not available"}`;
+            const i = document.createElement("div");
+            i.className = "hidden bg-gray-700 p-3 rounded mt-3";
 
-            const notes = document.createElement("p");
-            notes.innerHTML = `<strong>Notes:</strong> ${data.info?.notes || "Not available"}`;
+            const l = document.createElement("ul");
+            let dm = {};
 
-            const dropdown = document.createElement("select");
-            dropdown.classList.add("dropdown");
-            dropdown.innerHTML = `<option value="">Select a device</option>`;
-
-            const deviceInfo = document.createElement("div");
-            deviceInfo.classList.add("details", "hidden");
-
-            const iosList = document.createElement("ul");
-
-            let devicesMap = {};
-
-            data.compatibility.forEach(entry => {
-                entry.devices.forEach(device => {
-                    if (!devicesMap[device]) {
-                        devicesMap[device] = new Set();
-                    }
-                    entry.firmwares.forEach(fw => devicesMap[device].add(fw));
+            d.compatibility.forEach(e => {
+                e.devices.forEach(v => {
+                    if (!dm[v]) dm[v] = new Set();
+                    e.firmwares.forEach(fw => dm[v].add(fw));
                 });
             });
 
-            Object.keys(devicesMap).sort().forEach(device => {
-                let option = document.createElement("option");
-                option.value = device;
-                option.textContent = device;
-                dropdown.appendChild(option);
+            Object.keys(dm).sort().forEach(v => {
+                let o = document.createElement("option");
+                o.value = v;
+                o.textContent = v;
+                s.appendChild(o);
             });
 
-            dropdown.addEventListener("change", function () {
-                const selectedDevice = this.value;
-                if (selectedDevice) {
-                    iosList.innerHTML = "";
-                    devicesMap[selectedDevice].forEach(fw => {
+            s.addEventListener("change", function () {
+                const v = this.value;
+                if (v) {
+                    l.innerHTML = "";
+                    dm[v].forEach(fw => {
                         let li = document.createElement("li");
                         li.textContent = fw;
-                        iosList.appendChild(li);
+                        l.appendChild(li);
                     });
-                    deviceInfo.classList.remove("hidden");
+                    i.classList.remove("hidden");
                 } else {
-                    deviceInfo.classList.add("hidden");
+                    i.classList.add("hidden");
                 }
             });
 
-            deviceInfo.appendChild(iosList);
+            i.appendChild(l);
 
-            container.appendChild(jailbreakTitle);
-            container.appendChild(latestVer);
-            container.appendChild(type);
-            container.appendChild(notes);
-            container.appendChild(dropdown);
-            container.appendChild(deviceInfo);
-
-            document.getElementById("jailbreaksContainer").appendChild(container);
+            c.append(t, p1, p2, p3, s, i);
+            document.getElementById("j").appendChild(c);
         }
 
-        fetchJailbreakFiles();
+        function m(k, v) {
+            const p = document.createElement("p");
+            p.innerHTML = `<strong>${k}:</strong> ${v || "N/A"}`;
+            return p;
+        }
+
+        f();
     </script>
 
 </body>
