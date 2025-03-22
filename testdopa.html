@@ -80,17 +80,19 @@
             const container = document.createElement("div");
             container.classList.add("container");
 
+            // Fix: Ensure jailbreak name is properly retrieved
             const jailbreakTitle = document.createElement("h2");
-            jailbreakTitle.textContent = data.info.name || "Unknown Jailbreak";
+            const jailbreakName = data.info?.name?.trim();
+            jailbreakTitle.textContent = jailbreakName ? jailbreakName : "Unknown Jailbreak";
 
             const latestVer = document.createElement("p");
-            latestVer.innerHTML = `<strong>Latest Version:</strong> ${data.info.latestVer || "N/A"}`;
+            latestVer.innerHTML = `<strong>Latest Version:</strong> ${data.info?.latestVer || "Not available"}`;
 
             const type = document.createElement("p");
-            type.innerHTML = `<strong>Type:</strong> ${data.info.type || "N/A"}`;
+            type.innerHTML = `<strong>Type:</strong> ${data.info?.type || "Not available"}`;
 
             const notes = document.createElement("p");
-            notes.innerHTML = `<strong>Notes:</strong> ${data.info.notes || "N/A"}`;
+            notes.innerHTML = `<strong>Notes:</strong> ${data.info?.notes || "Not available"}`;
 
             const dropdown = document.createElement("select");
             dropdown.classList.add("dropdown");
