@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dopamine Jailbreak Info</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #121212;
+            color: white;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: #1e1e1e;
+            border-radius: 8px;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .dropdown {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .details {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #282828;
+            border-radius: 5px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Dopamine Jailbreak</h1>
+        <p><strong>Latest Version:</strong> <span id="latestVer">Loading...</span></p>
+        <p><strong>Type:</strong> <span id="type">Loading...</span></p>
+        <p><strong>Notes:</strong> <span id="notes">Loading...</span></p>
+        
+        <select id="deviceDropdown" class="dropdown">
+            <option value="">Select a device</option>
+        </select>
+
+        <div id="deviceInfo" class="details hidden">
+            <h2>Supported iOS Versions</h2>
+            <ul id="iosList"></ul>
+        </div>
+    </div>
+
+    <script>
+        async function loadData() {
+            const url = "https://raw.githubusercontent.com/littlebyteorg/appledb/36bb949bc7128d7c749fab984c909b91d4869958/jailbreakFiles/dopamine.json";
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                // Update general info
+                document.getElementById("latestVer").textContent = data.info.latestVer;
+                document.getElementById("type").textContent = data.info.type;
+                document.getElementById("notes").textContent = data.info.notes;
+                
+                const deviceDropdown = document.getElementById("deviceDropdown");
+                const deviceInfo = document.getElementById("deviceInfo");
+                const iosList = document.getElementById("iosList");
+
+                let devicesMap = {};
+
+                data.compatibility.forEach(entry => {
+                    entry.devices.forEach(device => {
+                        if (!devicesMap[device]) {
+                            devicesMap[device] = new Set();
+                        }
+                        entry.firmwares.forEach(fw => devicesMap[device].add(fw));
+                    });
+                });
+
+                Object.keys(devicesMap).sort().forEach(device => {
+                    let option = document.createElement("option");
+                    option.value = device;
+                    option.textContent = device;
+                    deviceDropdown.appendChild(option);
+                });
+
+                deviceDropdown.addEventListener("change", function () {
+                    const selectedDevice = this.value;
+                    if (selectedDevice) {
+                        iosList.innerHTML = "";
+                        devicesMap[selectedDevice].forEach(fw => {
+                            let li = document.createElement("li");
+                            li.textContent = fw;
+                            iosList.appendChild(li);
+                        });
+                        deviceInfo.classList.remove("hidden");
+                    } else {
+                        deviceInfo.classList.add("hidden");
+                    }
+                });
+
+            } catch (error) {
+                console.error("Error loading data:", error);
+            }
+        }
+
+        loadData();
+    </script>
+
+</body>
+</html>
