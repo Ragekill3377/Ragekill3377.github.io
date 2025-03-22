@@ -70,20 +70,22 @@
             try {
                 const response = await fetch(baseRawURL + filename);
                 const data = await response.json();
-                displayJailbreak(data);
+                displayJailbreak(data, filename);
             } catch (error) {
                 console.error(`Error fetching ${filename}:`, error);
             }
         }
 
-        function displayJailbreak(data) {
+        function displayJailbreak(data, filename) {
             const container = document.createElement("div");
             container.classList.add("container");
 
-            // Fix: Ensure jailbreak name is properly retrieved
+            // Extract filename without .json extension
+            const fallbackName = filename.replace(".json", "");
+            const jailbreakName = data.info?.name?.trim() || fallbackName;
+
             const jailbreakTitle = document.createElement("h2");
-            const jailbreakName = data.info?.name?.trim();
-            jailbreakTitle.textContent = jailbreakName ? jailbreakName : "Unknown Jailbreak1";
+            jailbreakTitle.textContent = jailbreakName;
 
             const latestVer = document.createElement("p");
             latestVer.innerHTML = `<strong>Latest Version:</strong> ${data.info?.latestVer || "Not available"}`;
