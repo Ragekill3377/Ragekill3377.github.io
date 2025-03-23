@@ -15,8 +15,7 @@
     </p>
 
     <script>
-        const apiBase = "https://api.github.com/repos/littlebyteorg/appledb/contents/jailbreakFiles";
-        const rawBase = "https://raw.githubusercontent.com/littlebyteorg/appledb/main/jailbreakFiles/";
+        const apiBase = "https://raw.githubusercontent.com/littlebyteorg/appledb/main/jailbreakFiles/";
         const devCache = new Map();
 
         async function getDevInfo(id) {
@@ -26,107 +25,61 @@
 
             try {
                 let res = await fetch(url);
-                if (!res.ok) throw new Error();
+                if (!res.ok) throw new Error(`Failed to fetch ${url}`);
                 let d = await res.json();
                 info.name = d.name || id;
                 d.firmwares?.forEach(f => info.vers.set(f.buildid, f.version));
                 devCache.set(id, info);
-            } catch (e) {}
+            } catch (e) {
+                console.error(`Device fetch error: ${e.message}`);
+            }
 
             return info;
         }
 
         async function fetchJBs() {
             try {
-                let res = await fetch(apiBase);
-                let data = await res.json();
-                data.filter(f => f.name.endsWith(".json")).forEach(f => fetchJBFile(f.name));
-            } catch (e) {}
+                let files = ["unc0ver.json", "checkra1n.json", "dopamine.json"]; // Add known jailbreaks
+                files.forEach(fetchJBFile);
+            } catch (e) {
+                console.error("Error fetching jailbreak files:", e);
+            }
         }
 
         async function fetchJBFile(file) {
             try {
-                let res = await fetch(rawBase + file);
+                let res = await fetch(apiBase + file);
+                if (!res.ok) throw new Error(`Failed to fetch ${file}`);
                 let data = await res.json();
                 processJB(data, file);
-            } catch (e) {}
+            } catch (e) {
+                console.error(`Error fetching ${file}:`, e);
+            }
         }
 
         async function processJB(data, file) {
+            console.log(`Processing: ${file}`, data);
+            const container = document.getElementById("content");
+            if (!container) return console.error("Container missing");
+
             const card = document.createElement("div");
             card.className = "card";
 
             const title = document.createElement("h2");
-            title.className = "title";
             title.textContent = data.info?.name?.trim() || file.replace(".json", "");
 
             const latest = mk("Latest Version", data.info?.latestVer);
             const type = mk("Type", data.info?.type);
             const notes = mk("Notes", data.info?.notes);
 
-            const sel = document.createElement("select");
-            sel.innerHTML = `<option value="">Select a device</option>`;
-
-            const listWrap = document.createElement("div");
-            listWrap.className = "list";
-            const list = document.createElement("ul");
-
-            let devMap = {};
-
-            for (const e of data.compatibility) {
-                for (const v of e.devices) {
-                    if (!devMap[v]) devMap[v] = new Set();
-                    e.firmwares.forEach(fw => devMap[v].add(fw));
-                }
-            }
-
-            const uniqueDevs = Object.keys(devMap);
-            const devs = await Promise.all(uniqueDevs.map(getDevInfo));
-
-            uniqueDevs.forEach((v, i) => {
-                let opt = document.createElement("option");
-                opt.value = v;
-                opt.textContent = devs[i].name;
-                sel.appendChild(opt);
-            });
-
-            sel.addEventListener("change", function () {
-                let v = this.value;
-                list.innerHTML = "";
-                if (v) {
-                    let knownVers = [], unknownVers = [];
-                    devMap[v].forEach(fw => {
-                        let devInfo = devCache.get(v);
-                        let ios = devInfo?.vers?.get(fw);
-                        if (ios) knownVers.push(ios);
-                        else unknownVers.push(fw);
-                    });
-
-                    knownVers.sort().forEach(ios => appendListItem(list, ios));
-                    unknownVers.sort().forEach(fw => appendListItem(list, fw));
-
-                    listWrap.style.display = "block";
-                } else {
-                    listWrap.style.display = "none";
-                }
-            });
-
-            listWrap.appendChild(list);
-            card.append(title, latest, type, notes, sel, listWrap);
-            document.getElementById("content").appendChild(card);
+            container.append(card);
+            card.append(title, latest, type, notes);
         }
 
         function mk(k, v) {
             const p = document.createElement("p");
-            p.className = "info";
             p.innerHTML = `<strong>${k}:</strong> ${v || "N/A"}`;
             return p;
-        }
-
-        function appendListItem(list, text) {
-            let li = document.createElement("li");
-            li.textContent = text;
-            list.appendChild(li);
         }
 
         fetchJBs();
