@@ -8,6 +8,14 @@
 </head>
 <body>
 
+    <div class="search-container">
+        <span class="search-icon" onclick="toggleSearch()">🔍</span>
+        <div class="search-box">
+            <input type="text" class="search-input" placeholder="Search device..." oninput="searchDevices()">
+            <div class="search-results"></div>
+        </div>
+    </div>
+
     <h1>Rage’s JB Checker</h1>
     <div id="content"></div>
     <p class="text-center">
@@ -18,6 +26,7 @@
         const apiBase = "https://api.github.com/repos/littlebyteorg/appledb/contents/jailbreakFiles";
         const rawBase = "https://raw.githubusercontent.com/littlebyteorg/appledb/main/jailbreakFiles/";
         const devCache = new Map();
+        const jbData = [];
 
         async function getDevInfo(id) {
             if (devCache.has(id)) return devCache.get(id);
@@ -88,6 +97,8 @@
                 opt.value = v;
                 opt.textContent = devs[i].name;
                 sel.appendChild(opt);
+
+                jbData.push({ id: v, name: devs[i].name, jb: title.textContent, element: card });
             });
 
             sel.addEventListener("change", function () {
@@ -127,6 +138,31 @@
             let li = document.createElement("li");
             li.textContent = text;
             list.appendChild(li);
+        }
+
+        function toggleSearch() {
+            document.querySelector(".search-box").style.display ^= "block";
+        }
+
+        function searchDevices() {
+            const query = document.querySelector(".search-input").value.toLowerCase();
+            const resultsContainer = document.querySelector(".search-results");
+            resultsContainer.innerHTML = "";
+
+            if (!query) return;
+
+            let results = jbData.filter(d => d.name.toLowerCase().includes(query));
+
+            results.forEach(d => {
+                let link = document.createElement("a");
+                link.href = "#";
+                link.textContent = `${d.name} - ${d.jb}`;
+                link.onclick = () => {
+                    d.element.scrollIntoView({ behavior: "smooth" });
+                    toggleSearch();
+                };
+                resultsContainer.appendChild(link);
+            });
         }
 
         fetchJBs();
