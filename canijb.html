@@ -3,16 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rage’s jb checker</title>
+    <title>Rage’s JB Checker</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { @apply bg-gray-900 text-white p-6 flex flex-col items-center; }
+        h1 { @apply text-3xl font-bold mb-4; }
+        .card { @apply bg-gray-800 p-6 rounded-lg max-w-lg w-full mb-5 shadow-lg; }
+        .title { @apply text-xl font-semibold text-center mb-3; }
+        .info { @apply text-sm text-gray-400 mb-2; }
+        select { @apply w-full bg-gray-700 p-2 rounded mt-3; }
+        .list { @apply hidden bg-gray-700 p-4 rounded mt-3; }
+        ul { @apply space-y-1; }
+    </style>
 </head>
-<body class="bg-gray-900 text-white p-5">
+<body>
 
-    <h1 class="text-2xl text-center font-bold">Rage’s jb checker</h1>
-    <div id="j"></div>
-    <div class="text-center mt-5">
-        Source: <a href="https://github.com/littlebyteorg/appledb" target="_blank" class="text-blue-400">littlebyteorg/appledb</a>
-    </div>
+    <h1>Rage’s JB Checker</h1>
+    <div id="content"></div>
+    <p class="text-center text-gray-400 mt-4">
+        Source: <a href="https://github.com/littlebyteorg/appledb" target="_blank" class="text-blue-400 underline">littlebyteorg/appledb</a>
+    </p>
 
     <script>
         const apiBase = "https://api.github.com/repos/littlebyteorg/appledb/contents/jailbreakFiles";
@@ -39,84 +49,94 @@
         async function fetchJBs() {
             try {
                 let res = await fetch(apiBase);
-                let d = await res.json();
-                d.filter(f => f.name.endsWith(".json")).forEach(f => fetchJBFile(f.name));
+                let data = await res.json();
+                data.filter(f => f.name.endsWith(".json")).forEach(f => fetchJBFile(f.name));
             } catch (e) {}
         }
 
-        async function fetchJBFile(f) {
+        async function fetchJBFile(file) {
             try {
-                let res = await fetch(rawBase + f);
-                let d = await res.json();
-                processJB(d, f);
+                let res = await fetch(rawBase + file);
+                let data = await res.json();
+                processJB(data, file);
             } catch (e) {}
         }
 
-        async function processJB(d, f) {
-            const c = document.createElement("div");
-            c.className = "bg-gray-800 p-5 rounded-lg mt-5 max-w-lg mx-auto";
+        async function processJB(data, file) {
+            const card = document.createElement("div");
+            card.className = "card";
 
-            const t = document.createElement("h2");
-            t.className = "text-xl font-semibold text-center";
-            t.textContent = d.info?.name?.trim() || f.replace(".json", "");
+            const title = document.createElement("h2");
+            title.className = "title";
+            title.textContent = data.info?.name?.trim() || file.replace(".json", "");
 
-            const p1 = mk("Latest Version", d.info?.latestVer);
-            const p2 = mk("Type", d.info?.type);
-            const p3 = mk("Notes", d.info?.notes);
+            const latest = mk("Latest Version", data.info?.latestVer);
+            const type = mk("Type", data.info?.type);
+            const notes = mk("Notes", data.info?.notes);
 
-            const s = document.createElement("select");
-            s.className = "w-full bg-gray-700 p-2 mt-2 rounded";
-            s.innerHTML = `<option value="">Select a device</option>`;
+            const sel = document.createElement("select");
+            sel.innerHTML = `<option value="">Select a device</option>`;
 
-            const i = document.createElement("div");
-            i.className = "hidden bg-gray-700 p-3 rounded mt-3";
-            const l = document.createElement("ul");
+            const listWrap = document.createElement("div");
+            listWrap.className = "list";
+            const list = document.createElement("ul");
 
             let devMap = {};
 
-            for (const e of d.compatibility) {
+            for (const e of data.compatibility) {
                 for (const v of e.devices) {
                     if (!devMap[v]) devMap[v] = new Set();
                     e.firmwares.forEach(fw => devMap[v].add(fw));
                 }
             }
 
-            const uDevs = Object.keys(devMap);
-            const devs = await Promise.all(uDevs.map(getDevInfo));
+            const uniqueDevs = Object.keys(devMap);
+            const devs = await Promise.all(uniqueDevs.map(getDevInfo));
 
-            uDevs.forEach((v, i) => {
-                let o = document.createElement("option");
-                o.value = v;
-                o.textContent = devs[i].name;
-                s.appendChild(o);
+            uniqueDevs.forEach((v, i) => {
+                let opt = document.createElement("option");
+                opt.value = v;
+                opt.textContent = devs[i].name;
+                sel.appendChild(opt);
             });
 
-            s.addEventListener("change", function () {
+            sel.addEventListener("change", function () {
                 let v = this.value;
+                list.innerHTML = "";
                 if (v) {
-                    l.innerHTML = "";
+                    let knownVers = [], unknownVers = [];
                     devMap[v].forEach(fw => {
-                        let li = document.createElement("li");
                         let devInfo = devCache.get(v);
-                        let ios = devInfo?.vers?.get(fw) || `Unknown (Build ${fw})`;
-                        li.textContent = `${ios} (${fw})`;
-                        l.appendChild(li);
+                        let ios = devInfo?.vers?.get(fw);
+                        if (ios) knownVers.push(ios);
+                        else unknownVers.push(fw);
                     });
-                    i.classList.remove("hidden");
+
+                    knownVers.sort().forEach(ios => appendListItem(list, ios));
+                    unknownVers.sort().forEach(fw => appendListItem(list, fw));
+
+                    listWrap.classList.remove("hidden");
                 } else {
-                    i.classList.add("hidden");
+                    listWrap.classList.add("hidden");
                 }
             });
 
-            i.appendChild(l);
-            c.append(t, p1, p2, p3, s, i);
-            document.getElementById("j").appendChild(c);
+            listWrap.appendChild(list);
+            card.append(title, latest, type, notes, sel, listWrap);
+            document.getElementById("content").appendChild(card);
         }
 
         function mk(k, v) {
             const p = document.createElement("p");
+            p.className = "info";
             p.innerHTML = `<strong>${k}:</strong> ${v || "N/A"}`;
             return p;
+        }
+
+        function appendListItem(list, text) {
+            let li = document.createElement("li");
+            li.textContent = text;
+            list.appendChild(li);
         }
 
         fetchJBs();
