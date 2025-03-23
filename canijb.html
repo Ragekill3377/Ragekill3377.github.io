@@ -5,168 +5,212 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rage’s JB Checker</title>
     <link rel="stylesheet" href="irk.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
 
-    <div class="search-container">
-        <span class="search-icon" onclick="toggleSearch()">🔍</span>
-        <div class="search-box">
-            <input type="text" class="search-input" placeholder="Search device..." oninput="searchDevices()">
-            <div class="search-results"></div>
+    <div class="container">
+        <div class="search-container">
+            <span id="searchIcon" class="search-icon">🔍</span>
+        </div>
+
+        <h1>Rage’s JB Checker</h1>
+        <div id="j"></div>
+
+        <div class="text-center mt-5">
+            Source: <a href="https://github.com/littlebyteorg/appledb" target="_blank" class="text-blue-400">littlebyteorg/appledb</a>
         </div>
     </div>
 
-    <h1>Rage’s JB Checker</h1>
-    <div id="content"></div>
-    <p class="text-center">
-        Source: <a href="https://github.com/littlebyteorg/appledb" target="_blank">littlebyteorg/appledb</a>
-    </p>
+    <div id="searchBox" class="search-box">
+        <input type="text" id="searchInput" placeholder="Search for your device..." autocomplete="off">
+    </div>
+
+    <div id="searchResults" class="search-results hidden"></div>
 
     <script>
         const apiBase = "https://api.github.com/repos/littlebyteorg/appledb/contents/jailbreakFiles";
         const rawBase = "https://raw.githubusercontent.com/littlebyteorg/appledb/main/jailbreakFiles/";
-        const devCache = new Map();
-        const jbData = [];
+        const ipswAPI = "https://api.ipsw.me/v4";
 
-        async function getDevInfo(id) {
-            if (devCache.has(id)) return devCache.get(id);
-            const url = `https://api.ipsw.me/v4/device/${id}?type=ipsw`;
-            let info = { name: id, vers: new Map() };
+        let deviceMap = {};
+        let firmwareMap = {};
 
+        async function fetchMappings() {
             try {
-                let res = await fetch(url);
-                if (!res.ok) throw new Error();
-                let d = await res.json();
-                info.name = d.name || id;
-                d.firmwares?.forEach(f => info.vers.set(f.buildid, f.version));
-                devCache.set(id, info);
-            } catch (e) {}
+                const [devicesRes, firmwareRes] = await Promise.all([
+                    fetch(`${ipswAPI}/devices`),
+                    fetch(`${ipswAPI}/firmwares`)
+                ]);
 
-            return info;
+                const devicesData = await devicesRes.json();
+                const firmwareData = await firmwareRes.json();
+
+                devicesData.forEach(d => {
+                    deviceMap[d.identifier] = d.name;
+                });
+
+                firmwareData.forEach(f => {
+                    firmwareMap[f.buildid] = f.version + ` (${f.buildid})`;
+                });
+
+                localStorage.setItem("deviceMap", JSON.stringify(deviceMap));
+                localStorage.setItem("firmwareMap", JSON.stringify(firmwareMap));
+            } catch (e) {
+                console.error("Error fetching IPSW API data:", e);
+            }
         }
 
-        async function fetchJBs() {
-            try {
-                let res = await fetch(apiBase);
-                let data = await res.json();
-                data.filter(f => f.name.endsWith(".json")).forEach(f => fetchJBFile(f.name));
-            } catch (e) {}
+        function loadCachedMappings() {
+            const cachedDevices = localStorage.getItem("deviceMap");
+            const cachedFirmwares = localStorage.getItem("firmwareMap");
+
+            if (cachedDevices && cachedFirmwares) {
+                deviceMap = JSON.parse(cachedDevices);
+                firmwareMap = JSON.parse(cachedFirmwares);
+            } else {
+                fetchMappings();
+            }
         }
 
-        async function fetchJBFile(file) {
+        async function fetchJailbreaks() {
             try {
-                let res = await fetch(rawBase + file);
-                let data = await res.json();
-                processJB(data, file);
-            } catch (e) {}
+                const res = await fetch(apiBase);
+                const data = await res.json();
+                data.filter(x => x.name.endsWith(".json")).forEach(x => fetchJBData(x.name));
+            } catch (e) {
+                console.error("Error fetching jailbreak files:", e);
+            }
         }
 
-        async function processJB(data, file) {
-            const card = document.createElement("div");
-            card.className = "card";
+        async function fetchJBData(name) {
+            try {
+                const res = await fetch(rawBase + name);
+                const data = await res.json();
+                displayJB(data, name);
+            } catch (e) {
+                console.error(`Error fetching ${name}:`, e);
+            }
+        }
+
+        function displayJB(data, name) {
+            const container = document.createElement("div");
+            container.className = "card";
 
             const title = document.createElement("h2");
-            title.className = "title";
-            title.textContent = data.info?.name?.trim() || file.replace(".json", "");
+            title.textContent = data.info?.name?.trim() || name.replace(".json", "");
 
-            const latest = mk("Latest Version", data.info?.latestVer);
-            const type = mk("Type", data.info?.type);
-            const notes = mk("Notes", data.info?.notes);
+            const latestVer = createInfo("Latest Version", data.info?.latestVer);
+            const type = createInfo("Type", data.info?.type);
+            const notes = createInfo("Notes", data.info?.notes);
 
-            const sel = document.createElement("select");
-            sel.innerHTML = `<option value="">Select a device</option>`;
+            const select = document.createElement("select");
+            select.className = "select";
+            select.innerHTML = `<option value="">Select a device</option>`;
 
-            const listWrap = document.createElement("div");
-            listWrap.className = "list";
+            const listContainer = document.createElement("div");
+            listContainer.className = "list hidden";
+
             const list = document.createElement("ul");
+            let compatibilityMap = {};
 
-            let devMap = {};
+            data.compatibility.forEach(entry => {
+                entry.devices.forEach(device => {
+                    let readableDevice = deviceMap[device] || device;
+                    if (!compatibilityMap[readableDevice]) compatibilityMap[readableDevice] = new Set();
 
-            for (const e of data.compatibility) {
-                for (const v of e.devices) {
-                    if (!devMap[v]) devMap[v] = new Set();
-                    e.firmwares.forEach(fw => devMap[v].add(fw));
-                }
-            }
-
-            const uniqueDevs = Object.keys(devMap);
-            const devs = await Promise.all(uniqueDevs.map(getDevInfo));
-
-            uniqueDevs.forEach((v, i) => {
-                let opt = document.createElement("option");
-                opt.value = v;
-                opt.textContent = devs[i].name;
-                sel.appendChild(opt);
-
-                jbData.push({ id: v, name: devs[i].name, jb: title.textContent, element: card });
-            });
-
-            sel.addEventListener("change", function () {
-                let v = this.value;
-                list.innerHTML = "";
-                if (v) {
-                    let knownVers = [], unknownVers = [];
-                    devMap[v].forEach(fw => {
-                        let devInfo = devCache.get(v);
-                        let ios = devInfo?.vers?.get(fw);
-                        if (ios) knownVers.push(ios);
-                        else unknownVers.push(fw);
+                    entry.firmwares.forEach(fw => {
+                        let readableFW = firmwareMap[fw] || fw;
+                        compatibilityMap[readableDevice].add(readableFW);
                     });
+                });
+            });
 
-                    knownVers.sort().forEach(ios => appendListItem(list, ios));
-                    unknownVers.sort().forEach(fw => appendListItem(list, fw));
+            Object.keys(compatibilityMap).sort().forEach(device => {
+                let option = document.createElement("option");
+                option.value = device;
+                option.textContent = device;
+                select.appendChild(option);
+            });
 
-                    listWrap.style.display = "block";
+            select.addEventListener("change", function () {
+                const val = this.value;
+                if (val) {
+                    list.innerHTML = "";
+                    compatibilityMap[val].forEach(fw => {
+                        let item = document.createElement("li");
+                        item.textContent = fw;
+                        list.appendChild(item);
+                    });
+                    listContainer.classList.remove("hidden");
                 } else {
-                    listWrap.style.display = "none";
+                    listContainer.classList.add("hidden");
                 }
             });
 
-            listWrap.appendChild(list);
-            card.append(title, latest, type, notes, sel, listWrap);
-            document.getElementById("content").appendChild(card);
+            listContainer.appendChild(list);
+            container.append(title, latestVer, type, notes, select, listContainer);
+            document.getElementById("j").appendChild(container);
         }
 
-        function mk(k, v) {
+        function createInfo(label, value) {
             const p = document.createElement("p");
-            p.className = "info";
-            p.innerHTML = `<strong>${k}:</strong> ${v || "N/A"}`;
+            p.innerHTML = `<strong>${label}:</strong> ${value || "N/A"}`;
             return p;
         }
 
-        function appendListItem(list, text) {
-            let li = document.createElement("li");
-            li.textContent = text;
-            list.appendChild(li);
-        }
+        loadCachedMappings();
+        fetchJailbreaks();
 
-        function toggleSearch() {
-            document.querySelector(".search-box").style.display ^= "block";
-        }
+        // Search functionality
+        document.getElementById("searchIcon").addEventListener("click", () => {
+            document.getElementById("searchBox").classList.toggle("hidden");
+            document.getElementById("searchInput").focus();
+        });
 
-        function searchDevices() {
-            const query = document.querySelector(".search-input").value.toLowerCase();
-            const resultsContainer = document.querySelector(".search-results");
-            resultsContainer.innerHTML = "";
+        document.getElementById("searchInput").addEventListener("input", function () {
+            const query = this.value.toLowerCase();
+            const resultsDiv = document.getElementById("searchResults");
+            resultsDiv.innerHTML = "";
 
-            if (!query) return;
+            if (!query) {
+                resultsDiv.classList.add("hidden");
+                return;
+            }
 
-            let results = jbData.filter(d => d.name.toLowerCase().includes(query));
+            const items = document.querySelectorAll(".card h2");
+            let results = [];
 
-            results.forEach(d => {
-                let link = document.createElement("a");
-                link.href = "#";
-                link.textContent = `${d.name} - ${d.jb}`;
-                link.onclick = () => {
-                    d.element.scrollIntoView({ behavior: "smooth" });
-                    toggleSearch();
-                };
-                resultsContainer.appendChild(link);
+            items.forEach(item => {
+                if (item.textContent.toLowerCase().includes(query)) {
+                    results.push(`<div class="result-item">${item.textContent}</div>`);
+                }
             });
-        }
 
-        fetchJBs();
+            if (results.length) {
+                resultsDiv.classList.remove("hidden");
+                resultsDiv.innerHTML = results.join("");
+            } else {
+                resultsDiv.classList.add("hidden");
+            }
+        });
+
+        document.getElementById("searchResults").addEventListener("click", function (e) {
+            if (e.target.classList.contains("result-item")) {
+                let selectedText = e.target.textContent;
+                let allCards = document.querySelectorAll(".card h2");
+
+                allCards.forEach(card => {
+                    if (card.textContent === selectedText) {
+                        card.scrollIntoView({ behavior: "smooth" });
+                        document.getElementById("searchBox").classList.add("hidden");
+                        document.getElementById("searchResults").classList.add("hidden");
+                        document.getElementById("searchInput").value = "";
+                    }
+                });
+            }
+        });
+
     </script>
-
 </body>
 </html>
