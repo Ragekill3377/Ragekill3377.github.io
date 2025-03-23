@@ -15,40 +15,54 @@
     </div>
 
     <script>
-        const a = "https://api.github.com/repos/littlebyteorg/appledb/contents/jailbreakFiles";
-        const b = "https://raw.githubusercontent.com/littlebyteorg/appledb/main/jailbreakFiles/";
+        const apiBase = "https://api.github.com/repos/littlebyteorg/appledb/contents/jailbreakFiles";
+        const rawBase = "https://raw.githubusercontent.com/littlebyteorg/appledb/main/jailbreakFiles/";
+        const devCache = new Map();
 
-        async function f() {
+        async function getDevInfo(id) {
+            if (devCache.has(id)) return devCache.get(id);
+            const url = `https://api.ipsw.me/v4/device/${id}?type=ipsw`;
+            let info = { name: id, vers: new Map() };
+
             try {
-                const r = await fetch(a);
-                const d = await r.json();
-                d.filter(x => x.name.endsWith(".json")).forEach(x => g(x.name));
-            } catch (e) {
-                console.error("Err fetching files:", e);
-            }
+                let res = await fetch(url);
+                if (!res.ok) throw new Error();
+                let d = await res.json();
+                info.name = d.name || id;
+                d.firmwares?.forEach(f => info.vers.set(f.buildid, f.version));
+                devCache.set(id, info);
+            } catch (e) {}
+
+            return info;
         }
 
-        async function g(n) {
+        async function fetchJBs() {
             try {
-                const r = await fetch(b + n);
-                const d = await r.json();
-                h(d, n);
-            } catch (e) {
-                console.error(`Err fetching ${n}:`, e);
-            }
+                let res = await fetch(apiBase);
+                let d = await res.json();
+                d.filter(f => f.name.endsWith(".json")).forEach(f => fetchJBFile(f.name));
+            } catch (e) {}
         }
 
-        function h(d, n) {
+        async function fetchJBFile(f) {
+            try {
+                let res = await fetch(rawBase + f);
+                let d = await res.json();
+                processJB(d, f);
+            } catch (e) {}
+        }
+
+        async function processJB(d, f) {
             const c = document.createElement("div");
             c.className = "bg-gray-800 p-5 rounded-lg mt-5 max-w-lg mx-auto";
 
             const t = document.createElement("h2");
             t.className = "text-xl font-semibold text-center";
-            t.textContent = d.info?.name?.trim() || n.replace(".json", "");
+            t.textContent = d.info?.name?.trim() || f.replace(".json", "");
 
-            const p1 = m("Latest Version", d.info?.latestVer);
-            const p2 = m("Type", d.info?.type);
-            const p3 = m("Notes", d.info?.notes);
+            const p1 = mk("Latest Version", d.info?.latestVer);
+            const p2 = mk("Type", d.info?.type);
+            const p3 = mk("Notes", d.info?.notes);
 
             const s = document.createElement("select");
             s.className = "w-full bg-gray-700 p-2 mt-2 rounded";
@@ -56,31 +70,36 @@
 
             const i = document.createElement("div");
             i.className = "hidden bg-gray-700 p-3 rounded mt-3";
-
             const l = document.createElement("ul");
-            let dm = {};
 
-            d.compatibility.forEach(e => {
-                e.devices.forEach(v => {
-                    if (!dm[v]) dm[v] = new Set();
-                    e.firmwares.forEach(fw => dm[v].add(fw));
-                });
-            });
+            let devMap = {};
 
-            Object.keys(dm).sort().forEach(v => {
+            for (const e of d.compatibility) {
+                for (const v of e.devices) {
+                    if (!devMap[v]) devMap[v] = new Set();
+                    e.firmwares.forEach(fw => devMap[v].add(fw));
+                }
+            }
+
+            const uDevs = Object.keys(devMap);
+            const devs = await Promise.all(uDevs.map(getDevInfo));
+
+            uDevs.forEach((v, i) => {
                 let o = document.createElement("option");
                 o.value = v;
-                o.textContent = v;
+                o.textContent = devs[i].name;
                 s.appendChild(o);
             });
 
             s.addEventListener("change", function () {
-                const v = this.value;
+                let v = this.value;
                 if (v) {
                     l.innerHTML = "";
-                    dm[v].forEach(fw => {
+                    devMap[v].forEach(fw => {
                         let li = document.createElement("li");
-                        li.textContent = fw;
+                        let devInfo = devCache.get(v);
+                        let ios = devInfo?.vers?.get(fw) || `Unknown (Build ${fw})`;
+                        li.textContent = `${ios} (${fw})`;
                         l.appendChild(li);
                     });
                     i.classList.remove("hidden");
@@ -90,18 +109,17 @@
             });
 
             i.appendChild(l);
-
             c.append(t, p1, p2, p3, s, i);
             document.getElementById("j").appendChild(c);
         }
 
-        function m(k, v) {
+        function mk(k, v) {
             const p = document.createElement("p");
             p.innerHTML = `<strong>${k}:</strong> ${v || "N/A"}`;
             return p;
         }
 
-        f();
+        fetchJBs();
     </script>
 
 </body>
