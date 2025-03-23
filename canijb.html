@@ -4,24 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rage’s JB Checker</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { @apply bg-gray-900 text-white p-6 flex flex-col items-center; }
-        h1 { @apply text-3xl font-bold mb-4; }
-        .card { @apply bg-gray-800 p-6 rounded-lg max-w-lg w-full mb-5 shadow-lg; }
-        .title { @apply text-xl font-semibold text-center mb-3; }
-        .info { @apply text-sm text-gray-400 mb-2; }
-        select { @apply w-full bg-gray-700 p-2 rounded mt-3; }
-        .list { @apply hidden bg-gray-700 p-4 rounded mt-3; }
-        ul { @apply space-y-1; }
-    </style>
+    <link rel="stylesheet" href="irk.css">
 </head>
 <body>
 
     <h1>Rage’s JB Checker</h1>
     <div id="content"></div>
-    <p class="text-center text-gray-400 mt-4">
-        Source: <a href="https://github.com/littlebyteorg/appledb" target="_blank" class="text-blue-400 underline">littlebyteorg/appledb</a>
+    <p class="text-center">
+        Source: <a href="https://github.com/littlebyteorg/appledb" target="_blank">littlebyteorg/appledb</a>
     </p>
 
     <script>
@@ -115,9 +105,9 @@
                     knownVers.sort().forEach(ios => appendListItem(list, ios));
                     unknownVers.sort().forEach(fw => appendListItem(list, fw));
 
-                    listWrap.classList.remove("hidden");
+                    listWrap.style.display = "block";
                 } else {
-                    listWrap.classList.add("hidden");
+                    listWrap.style.display = "none";
                 }
             });
 
