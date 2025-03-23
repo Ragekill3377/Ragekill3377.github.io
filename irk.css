@@ -1,59 +1,80 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 body {
-    @apply bg-gray-900 text-white p-5;
+    background-color: #111;
+    color: #fff;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 h1 {
-    @apply text-3xl font-bold text-center;
-}
-
-.container {
-    @apply max-w-4xl mx-auto;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 15px;
 }
 
 .card {
-    @apply bg-gray-800 p-5 rounded-lg mt-5 shadow-md;
+    background-color: #222;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 100%;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
-.card h2 {
-    @apply text-xl font-semibold text-center text-white;
+.title {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
 }
 
-.card p {
-    @apply text-gray-300;
+.info {
+    font-size: 14px;
+    color: #bbb;
+    margin-bottom: 5px;
 }
 
-.select {
-    @apply w-full bg-gray-700 p-2 mt-2 rounded;
+select {
+    width: 100%;
+    background-color: #333;
+    color: white;
+    padding: 8px;
+    border-radius: 5px;
+    margin-top: 10px;
+    border: none;
+    outline: none;
 }
 
 .list {
-    @apply bg-gray-700 p-3 rounded mt-3 text-gray-200;
+    display: none;
+    background-color: #333;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
 }
 
-.search-container {
-    @apply flex justify-end items-center mt-4;
+ul {
+    padding: 0;
+    list-style: none;
 }
 
-.search-icon {
-    @apply text-gray-400 cursor-pointer text-xl;
+ul li {
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.search-box {
-    @apply fixed top-0 left-0 w-full h-full bg-black bg-opacity-80 flex items-center justify-center hidden;
+ul li:last-child {
+    border-bottom: none;
 }
 
-.search-box input {
-    @apply w-3/4 p-3 text-lg bg-gray-800 text-white border border-gray-600 rounded outline-none;
+a {
+    color: #4ea6ff;
+    text-decoration: none;
 }
 
-.search-results {
-    @apply max-w-lg mx-auto bg-gray-800 p-4 rounded-lg mt-3 shadow-lg;
-}
-
-.search-results div {
-    @apply p-2 hover:bg-gray-700 cursor-pointer rounded transition;
+a:hover {
+    text-decoration: underline;
 }
