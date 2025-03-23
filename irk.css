@@ -1,51 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    @apply bg-gray-900 text-white p-5;
+}
+
+h1 {
+    @apply text-3xl font-bold text-center;
+}
+
+.container {
+    @apply max-w-4xl mx-auto;
+}
+
+.card {
+    @apply bg-gray-800 p-5 rounded-lg mt-5 shadow-md;
+}
+
+.card h2 {
+    @apply text-xl font-semibold text-center text-white;
+}
+
+.card p {
+    @apply text-gray-300;
+}
+
+.select {
+    @apply w-full bg-gray-700 p-2 mt-2 rounded;
+}
+
+.list {
+    @apply bg-gray-700 p-3 rounded mt-3 text-gray-200;
+}
+
 .search-container {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    cursor: pointer;
+    @apply flex justify-end items-center mt-4;
 }
 
 .search-icon {
-    font-size: 24px;
-    color: #fff;
+    @apply text-gray-400 cursor-pointer text-xl;
 }
 
 .search-box {
-    display: none;
-    position: absolute;
-    top: 50px;
-    right: 20px;
-    background: #222;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    width: 250px;
+    @apply fixed top-0 left-0 w-full h-full bg-black bg-opacity-80 flex items-center justify-center hidden;
 }
 
-.search-input {
-    width: 100%;
-    padding: 8px;
-    background: #333;
-    border: none;
-    color: white;
-    border-radius: 5px;
-    outline: none;
+.search-box input {
+    @apply w-3/4 p-3 text-lg bg-gray-800 text-white border border-gray-600 rounded outline-none;
 }
 
 .search-results {
-    max-height: 200px;
-    overflow-y: auto;
-    margin-top: 5px;
+    @apply max-w-lg mx-auto bg-gray-800 p-4 rounded-lg mt-3 shadow-lg;
 }
 
-.search-results a {
-    display: block;
-    padding: 5px;
-    color: #4ea6ff;
-    text-decoration: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.search-results a:hover {
-    background: #333;
+.search-results div {
+    @apply p-2 hover:bg-gray-700 cursor-pointer rounded transition;
 }
