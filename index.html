@@ -3,20 +3,43 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Floodie</title>                               <script src="https://cdn.tailwindcss.com"></script>
+  <title>Floodie</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
       background: radial-gradient(ellipse at top, #0a0a0a, #000000);
       user-select: none;
-    }                                                    .glass {
-      background: rgba(255, 255, 255, 0.03);               backdrop-filter: blur(16px);
+    }
+
+    .glass {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.08);
       box-shadow: 0 0 30px rgba(0, 255, 255, 0.05);
     }
+
     .neon-hover:hover {
       color: #00ffff;
       text-shadow: 0 0 4px #0ff, 0 0 10px #0ff;
       transform: scale(1.02);
+    }
+
+    .neon-button {
+      background: rgba(0, 255, 255, 0.1);
+      border: 1px solid rgba(0, 255, 255, 0.4);
+      color: #00ffff;
+      padding: 0.75rem 1.5rem;
+      border-radius: 1rem;
+      text-shadow: 0 0 4px #0ff, 0 0 10px #0ff;
+      backdrop-filter: blur(16px);
+      transition: all 0.3s ease;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.1);
+    }
+
+    .neon-button:hover {
+      background: rgba(0, 255, 255, 0.2);
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
     }
   </style>
 </head>
@@ -28,7 +51,7 @@
     </h1>
 
     <p class="text-lg text-gray-300 mb-8 leading-relaxed">
-      Floodie is a powerful discord bot. Features include:
+      Floodie is a powerful Discord bot. Features include:
     </p>
 
     <ul class="text-left space-y-6 text-gray-100 text-base">
@@ -40,7 +63,11 @@
       </li>
     </ul>
 
-    <p class="mt-10 text-sm text-gray-500">Tor-only access · End-to-end encrypted · No third parties</p>
+    <div class="mt-10">
+      <a href="YOUR_INVITE_LINK_HERE" target="_blank" rel="noopener noreferrer" class="neon-button">
+        Join Floodie on Discord
+      </a>
+    </div>
   </div>
 
 </body>
